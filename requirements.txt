@@ -1,0 +1,6 @@
+psutil
+netaddr
+pylzma
+colorama
+./yara-python
+

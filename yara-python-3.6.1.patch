@@ -1,0 +1,24 @@
+diff --git a/setup.py b/setup.py
+index 068e53b..972cfa1 100644
+--- a/setup.py
++++ b/setup.py
+@@ -33,9 +33,9 @@ import subprocess
+ 
+ OPTIONS = [
+    ('dynamic-linking', None, 'link dynamically against libyara'),
+-   ('enable-cuckoo', None, 'enable "cuckoo" module'),
+-   ('enable-magic', None, 'enable "magic" module'),
+-   ('enable-dotnet', None, 'enable "dotnet" module'),
++   ('enable-cuckoo', True, 'enable "cuckoo" module'),
++   ('enable-magic', True, 'enable "magic" module'),
++   ('enable-dotnet', True, 'enable "dotnet" module'),
+    ('enable-profiling', None, 'enable profiling features')]
+ 
+ 
+@@ -284,4 +284,5 @@ setup(
+     ext_modules=[Extension(
+         name='yara',
+         include_dirs=['yara/libyara/include', 'yara/libyara/', '.'],
+-        sources=['yara-python.c'])])
++        sources=['yara-python.c'],
++        extra_compile_args=['-std=gnu99'])])

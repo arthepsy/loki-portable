@@ -1,0 +1,28 @@
+env:
+  global:
+    - YARA_VERSION=3.6.1
+    - CIBW_BEFORE_BUILD="{pip} wheel -r requirements.txt"
+
+matrix:
+  include:
+    - sudo: required
+      services:
+        - docker
+
+before_install:
+  - sudo apt-get install automake libtool make gcc
+  - sudo apt-get install python-dev
+  - sudo apt-get install libjansson-dev
+  - sudo apt-get install libmagic-dev
+
+script:
+  - pip install https://github.com/joerick/cibuildwheel/archive/master.zip
+  - |
+    git clone --branch v${YARA_VERSION} --depth=1 --recursive https://github.com/VirusTotal/yara-python
+    cd yara-python
+    patch -p1 < ../yara-python-${YARA_VERSION}.patch
+    cd ..
+    git clone --depth=1 https://github.com/Neo23x0/Loki
+    cibuildwheel --output-dir wheelhouse
+    cd wheelhouse && ls -al
+    cd && find ./ -name "*.whl"
